@@ -15,7 +15,7 @@
 
 using namespace std;
 
-#define DEV_PASSWORD "admin"
+#define DEV_PASSWORD "Test1234"
 #define MAX_HOSTNAME_LEN 128
 #define MAX_LOGMSG_LEN 256 
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 	PTZBindingProxy proxyPTZ;
 	PullPointSubscriptionBindingProxy proxyEvent;
 
-	if (argc > 1)
+	if (argc > 2)
 	{
 		strcat(szHostName, "http://");
 		strcat(szHostName, argv[1]);
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		processEventLog(__FILE__, __LINE__, stdout, "wrong args,usage: ./a.out 172.18.4.100 ");
+		processEventLog(__FILE__, __LINE__, stdout, "wrong args,usage: ./a.out 172.18.4.100 user pwd");
 		return -1;
 	}
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
 	struct soap *soap = soap_new();
 
-	if (SOAP_OK != soap_wsse_add_UsernameTokenDigest(proxyDevice.soap, NULL, "admin", DEV_PASSWORD))
+	if (SOAP_OK != soap_wsse_add_UsernameTokenDigest(proxyDevice.soap, NULL, argv[2], argv[3]))
 	{
 		return -1;
 	}
